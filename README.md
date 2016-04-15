@@ -21,3 +21,7 @@ To be announced
 - Unity 3D 5.3.0
 - Paint.Net
 - 3DS Max 2016
+
+##Required Extensions
+- Playmaker 1.8.0.f43
+- InControl 1.5.12
