@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -17,9 +19,12 @@ public class WorldGenerator : MonoBehaviour
     public GameObject FloorPrefab;
     public GameObject PlayerPrefab;
 
+    private int m_roomId;
+
 	// Use this for initialization
 	void Start ()
 	{
+	    Random.seed = (int) DateTime.Now.Ticks;
         var w = Random.Range(MinWidth, MaxWidth);
         var h = Random.Range(MinHeight, MaxHeight);
 
@@ -43,6 +48,7 @@ public class WorldGenerator : MonoBehaviour
         var obj = Instantiate(FloorPrefab, pos, Quaternion.identity) as GameObject;
         obj.transform.parent = Env;
         obj.transform.localScale = new Vector3(w, h, 1);
+        obj.name = "Floor " + m_roomId++;
 
         if (distance > WorldSize)
         {
@@ -60,7 +66,7 @@ public class WorldGenerator : MonoBehaviour
 
             pos2 = pos + new Vector2((w/2f) + 1 + (w2/2f), 0);
 
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.down).Length == 0)
+            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
             {
                 SpawnRoom(w2, h2, pos2, distance + 1);
 
@@ -79,7 +85,7 @@ public class WorldGenerator : MonoBehaviour
 
             pos2 = pos + new Vector2(-((w / 2f) + 1 + (w2 / 2f)), 0);
 
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.down).Length == 0)
+            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
             {
                 SpawnRoom(w2, h2, pos2, distance + 1);
 
@@ -97,8 +103,8 @@ public class WorldGenerator : MonoBehaviour
             h2 = Random.Range(MinHeight, MaxHeight);
 
             pos2 = pos + new Vector2(0, (h / 2f) + 1 + (h2 / 2f));
-
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.down).Length == 0)
+            
+            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
             {
                 SpawnRoom(w2, h2, pos2, distance + 1);
 
@@ -116,8 +122,8 @@ public class WorldGenerator : MonoBehaviour
             h2 = Random.Range(MinHeight, MaxHeight);
 
             pos2 = pos + new Vector2(0, -((h / 2f) + 1 + (h2 / 2f)));
-
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.down).Length == 0)
+            
+            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
             {
                 SpawnRoom(w2, h2, pos2, distance + 1);
 
@@ -133,10 +139,4 @@ public class WorldGenerator : MonoBehaviour
     {
         return true;
     }
-
-    // Update is called once per frame
-    void Update ()
-    {
-	
-	}
 }
