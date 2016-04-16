@@ -12,6 +12,7 @@ public class PlayerControls : PlayerActionSet
     public PlayerTwoAxisAction Move { get; private set; }
 
     public PlayerAction Shift { get; private set; }
+    public PlayerAction Attack { get; private set; }
 
     public PlayerControls()
     {
@@ -23,6 +24,7 @@ public class PlayerControls : PlayerActionSet
         Move = CreateTwoAxisPlayerAction(MoveLeft, MoveRight, MoveDown, MoveUp);
 
         Shift = CreatePlayerAction("Shapeshift");
+        Attack = CreatePlayerAction("Attack");
 
         SetupKeyboardDefaults();
     }
