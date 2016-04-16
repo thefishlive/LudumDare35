@@ -12,15 +12,14 @@ April 15th - 17th, 2016
 Compo
 
 ##Theme
-To be announced
+Shapeshift
 
 ##Game Information
-
+A 2D top down shape shifting shooter
 
 ##Tools
-- Unity 3D 5.3.0
+- Unity 3D 5.3.4f3
 - Paint.Net
-- 3DS Max 2016
 
 ##Required Extensions
 - Playmaker 1.8.0.f43
