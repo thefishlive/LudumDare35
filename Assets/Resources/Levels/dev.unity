@@ -125,11 +125,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d325690a1251a494e858b3cf67cb6a1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RandomSeed: -1
   MinWidth: 7
   MaxWidth: 15
   MinHeight: 7
   MaxHeight: 15
-  WorldSize: 5
+  WorldSize: -1
   Env: {fileID: 1184996955}
   FloorPrefab: {fileID: 146018, guid: e2a7157ebf720fb4fba76044f6731e20, type: 2}
   PlayerPrefab: {fileID: 180506, guid: 62d18a3c158a26c44962040abf212c63, type: 2}
