@@ -48,12 +48,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &198514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 429892}
+  - 114: {fileID: 11455202}
+  m_Layer: 0
+  m_Name: WorldGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &420452
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 440262}
+  m_RootOrder: 1
+--- !u!4 &429892
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -73,7 +102,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 440262}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &440262
 Transform:
   m_ObjectHideFlags: 1
@@ -85,6 +114,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 429892}
   - {fileID: 420452}
   - {fileID: 431094}
   m_Father: {fileID: 0}
@@ -127,6 +157,27 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &11455202
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d325690a1251a494e858b3cf67cb6a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RandomSeed: -1
+  MinWidth: 7
+  MaxWidth: 15
+  MinHeight: 7
+  MaxHeight: 15
+  WorldSize: 7
+  Env: {fileID: 0}
+  FloorPrefab: {fileID: 146018, guid: e2a7157ebf720fb4fba76044f6731e20, type: 2}
+  PlayerPrefab: {fileID: 180506, guid: 62d18a3c158a26c44962040abf212c63, type: 2}
+  WallPrefab: {fileID: 159582, guid: f44d7efb1153be6429b8026943925d2a, type: 2}
 --- !u!114 &11465588
 MonoBehaviour:
   m_ObjectHideFlags: 1

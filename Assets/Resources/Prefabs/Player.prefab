@@ -16,7 +16,7 @@ GameObject:
   - 58: {fileID: 5817162}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,7 +87,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e99a173627231344aeadf570fe8b7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 0.1
+  MovementSpeed: 0.2
   ShiftDelay: 1
   CircleSprite: {fileID: 21300000, guid: 681428873714cdb43a8d22a26c792c26, type: 3}
   SquareSprite: {fileID: 21300000, guid: 7888af6a3f2c5da45a22ce2c06f3da5e, type: 3}

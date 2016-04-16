@@ -47,6 +47,7 @@ public class WorldGenerator : MonoBehaviour
     private void SpawnPlayer(Vector2 vector2)
     {
         var player = Instantiate(PlayerPrefab, vector2, Quaternion.identity) as GameObject;
+        player.name = "Player";
     }
 
     private Room SpawnRoom(int w, int h, Vector2 pos, int distance)
@@ -63,6 +64,7 @@ public class WorldGenerator : MonoBehaviour
 
         if (distance > WorldSize)
         {
+            // Deadend room
             return room;
         }
 
@@ -70,82 +72,70 @@ public class WorldGenerator : MonoBehaviour
         Vector2 pos2;
         
         // Right
-        if (RandomBool())
+        w2 = RandomWidth();
+        h2 = RandomHeight();
+
+        pos2 = pos + new Vector2((w/2f) + 1 + (w2/2f), 0);
+
+        if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
         {
-            w2 = RandomWidth();
-            h2 = RandomHeight();
+            room.ConnectionRight = SpawnRoom(w2, h2, pos2, distance + 1);
+            SpawnTunnel(pos + new Vector2((w/2f) + 0.5f, 0), c_tunnelHorizontal);
 
-            pos2 = pos + new Vector2((w/2f) + 1 + (w2/2f), 0);
-
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
+            if (room.ConnectionRight != null)
             {
-                room.ConnectionRight = SpawnRoom(w2, h2, pos2, distance + 1);
-                SpawnTunnel(pos + new Vector2((w / 2f) + 0.5f, 0), c_tunnelHorizontal);
-
-                if (room.ConnectionRight != null)
-                {
-                    room.ConnectionRight.ConnectionLeft = room;
-                }
+                room.ConnectionRight.ConnectionLeft = room;
             }
         }
 
         // Left
-        if (RandomBool())
+        w2 = RandomWidth();
+        h2 = RandomHeight();
+
+        pos2 = pos + new Vector2(-((w/2f) + 1 + (w2/2f)), 0);
+
+        if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
         {
-            w2 = RandomWidth();
-            h2 = RandomHeight();
+            room.ConnectionLeft = SpawnRoom(w2, h2, pos2, distance + 1);
+            SpawnTunnel(pos + new Vector2(-((w/2f) + 0.5f), 0), c_tunnelHorizontal);
 
-            pos2 = pos + new Vector2(-((w / 2f) + 1 + (w2 / 2f)), 0);
-
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
+            if (room.ConnectionLeft != null)
             {
-                room.ConnectionLeft = SpawnRoom(w2, h2, pos2, distance + 1);
-                SpawnTunnel(pos + new Vector2(-((w / 2f) + 0.5f), 0), c_tunnelHorizontal);
-
-                if (room.ConnectionLeft != null)
-                {
-                    room.ConnectionLeft.ConnectionRight = room;
-                }
+                room.ConnectionLeft.ConnectionRight = room;
             }
         }
 
         // Up
-        if (RandomBool())
+        w2 = RandomWidth();
+        h2 = RandomHeight();
+
+        pos2 = pos + new Vector2(0, (h/2f) + 1 + (h2/2f));
+
+        if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
         {
-            w2 = RandomWidth();
-            h2 = RandomHeight();
+            room.ConnectionUp = SpawnRoom(w2, h2, pos2, distance + 1);
+            SpawnTunnel(pos + new Vector2(0, (h/2f) + 0.5f), c_tunnelVertical);
 
-            pos2 = pos + new Vector2(0, (h / 2f) + 1 + (h2 / 2f));
-            
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
+            if (room.ConnectionUp != null)
             {
-                room.ConnectionUp = SpawnRoom(w2, h2, pos2, distance + 1);
-                SpawnTunnel(pos + new Vector2(0, (h / 2f) + 0.5f), c_tunnelVertical);
-
-                if (room.ConnectionUp != null)
-                {
-                    room.ConnectionUp.ConnectionDown = room;
-                }
+                room.ConnectionUp.ConnectionDown = room;
             }
         }
 
         // Down
-        if (RandomBool())
+        w2 = RandomWidth();
+        h2 = RandomHeight();
+
+        pos2 = pos + new Vector2(0, -((h/2f) + 1 + (h2/2f)));
+
+        if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
         {
-            w2 = RandomWidth();
-            h2 = RandomHeight();
+            room.ConnectionDown = SpawnRoom(w2, h2, pos2, distance + 1);
+            SpawnTunnel(pos + new Vector2(0, -((h/2f) + 0.5f)), c_tunnelVertical);
 
-            pos2 = pos + new Vector2(0, -((h / 2f) + 1 + (h2 / 2f)));
-            
-            if (Physics2D.BoxCastAll(pos2, new Vector2(w2, h2), 0f, Vector2.zero).Length == 0)
+            if (room.ConnectionDown != null)
             {
-                room.ConnectionDown = SpawnRoom(w2, h2, pos2, distance + 1);
-                SpawnTunnel(pos + new Vector2(0, -((h / 2f) + 0.5f)), c_tunnelVertical);
-
-                if (room.ConnectionDown != null)
-                {
-                    room.ConnectionDown.ConnectionUp = room;
-                }
+                room.ConnectionDown.ConnectionUp = room;
             }
         }
 
