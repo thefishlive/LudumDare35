@@ -26,19 +26,24 @@ public class PlayerController : MonoBehaviour
     public Collider2D CircleCollider = default(Collider2D);
     public Collider2D SquareCollider = default(Collider2D);
     public Collider2D DiamondCollider = default(Collider2D);
-
+    
     [Header("UI")]
-    public ProgressBar ShiftProgressbar;
+    public GameObject Ui = default(GameObject);
 
-    private Shape m_shape;
-    private SpriteRenderer m_renderer;
-    private PlayerControls m_controls;
+    private Shape m_shape = default(Shape);
+    private SpriteRenderer m_renderer = default(SpriteRenderer);
+    private PlayerControls m_controls = default(PlayerControls);
 
     private float m_shiftStartTime = -1f;
+    private ProgressBar m_shiftProgressBar = default(ProgressBar);
 
 	// Use this for initialization
 	void Start ()
-    {
+	{
+	    var ui = Instantiate(Ui);
+	    var manager = ui.GetComponent<UIManager>();
+	    m_shiftProgressBar = manager.ShiftProcessBar.GetComponent<ProgressBar>();
+
 	    m_controls = new PlayerControls();
 
 	    m_renderer = GetComponent<SpriteRenderer>();
@@ -52,7 +57,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        ShiftProgressbar.Value = Mathf.Clamp((Time.time - m_shiftStartTime) / ShiftDelay, 0f, 1f);
+        if (m_shiftProgressBar != null)
+        {
+            m_shiftProgressBar.Value = Mathf.Clamp((Time.time - m_shiftStartTime) / ShiftDelay, 0f, 1f);
+        }
     }
 
     // Update is called once per frame
