@@ -1,6 +1,9 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
 using Random = UnityEngine.Random;
 
 public class WorldGenerator : MonoBehaviour
@@ -18,36 +21,83 @@ public class WorldGenerator : MonoBehaviour
     public int MaxHeight = 10;
     public int WorldSize = 5;
 
-    [Header("Environment root")]
+    [Header("Enemies")]
+    public int StartingEnemies = 10;
+    public float WaveDelay = 25f;
+
+    [Header("World Obejcts")]
     public Transform Env;
 
     [Header("Prefabs")]
     public GameObject FloorPrefab;
-    public GameObject PlayerPrefab;
     public GameObject WallPrefab;
 
-    private int m_roomId;
+    public GameObject PlayerPrefab;
+    public GameObject EnemyPrefab;
+    
+    public Room StartingRoom { get; private set; }
+    public int WorldWidth { get; private set; }
+    public int WorldHeight { get; private set; }
 
-	// Use this for initialization
+    private int m_roomId;
+    private int m_enemyId;
+    private int m_wave;
+    private GameObject m_player;
+    private readonly List<Vector2> m_enemySpawns = new List<Vector2>(); 
+
+    // Use this for initialization
 	void Start ()
 	{
 	    Random.seed = RandomSeed == -1 ? (int) DateTime.Now.Ticks : RandomSeed;
 
-        SpawnRoom(RandomWidth(), RandomHeight(), new Vector2(0, 0), 0);
-
-	    foreach (Transform child in Env.transform)
-	    {
-	        child.GetComponent<BoxCollider2D>().enabled = false;
+        StartingRoom = SpawnRoom(RandomWidth(), RandomHeight(), new Vector2(0, 0), 0);
+        
+        foreach (Transform child in Env.transform)
+        {
+            child.GetComponent<BoxCollider2D>().enabled = false;
             child.GetComponent<Room>().GenerateWalls();
-	    }
+        }
 
-	    SpawnPlayer(new Vector2(0, 0));
+        SpawnPlayer(new Vector3(0, 0, -1f));
+        AstarPath.active.Scan();
+
+	    StartCoroutine(SpawnEnemies());
 	}
 
-    private void SpawnPlayer(Vector2 vector2)
+    private IEnumerator SpawnEnemies()
     {
-        var player = Instantiate(PlayerPrefab, vector2, Quaternion.identity) as GameObject;
-        player.name = "Player";
+        var wait = new WaitForSeconds(WaveDelay);
+        while (enabled)
+        {
+            yield return wait;
+
+            m_wave++;
+
+            for (var i = 0; i < m_wave*5 && i < m_enemySpawns.Count; i++)
+            {
+                SpawnEnemy(m_enemySpawns[Random.Range(0, m_enemySpawns.Count)]);
+            }
+        }
+    }
+
+    public void SpawnPlayer(Vector3 pos)
+    {
+        m_player = Instantiate(PlayerPrefab, pos, Quaternion.identity) as GameObject;
+        m_player.name = "Player";
+
+        var spawns = m_enemySpawns.OrderBy(a => Guid.NewGuid()).ToList();
+
+        for (var i = 0; i < spawns.Count && i < StartingEnemies; i++)
+        {
+            SpawnEnemy(spawns[i]);
+        }
+    }
+
+    private void SpawnEnemy(Vector2 spawns)
+    {
+        var enemy = Instantiate(EnemyPrefab, spawns, Quaternion.identity) as GameObject;
+        enemy.name = "Enemy" + m_enemyId++;
+        enemy.GetComponent<AIController>().Target = m_player;
     }
 
     private Room SpawnRoom(int w, int h, Vector2 pos, int distance)
@@ -61,10 +111,11 @@ public class WorldGenerator : MonoBehaviour
         var room = obj.GetComponent<Room>();
         room.Width = w;
         room.Height = h;
-
+        
         if (distance > WorldSize)
         {
             // Deadend room
+            m_enemySpawns.Add(pos);
             return room;
         }
 

@@ -36,6 +36,7 @@ public class PlayerControls : PlayerActionSet
         MoveLeft.AddDefaultBinding(Key.A);
         MoveRight.AddDefaultBinding(Key.D);
 
-        Shift.AddDefaultBinding(Key.Space);
+        Shift.AddDefaultBinding(Key.LeftShift);
+        Attack.AddDefaultBinding(Key.Space);
     }
 }

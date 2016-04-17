@@ -9,7 +9,7 @@ public class Room : MonoBehaviour
     public Room ConnectionUp;
     public Room ConnectionDown;
 
-    [Header("Room size")]
+    [Header("Room data")]
     public int Width;
     public int Height;
 

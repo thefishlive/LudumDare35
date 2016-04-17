@@ -62,7 +62,7 @@ MonoBehaviour:
   ConnectionDown: {fileID: 0}
   Width: 0
   Height: 0
-  WallPrefab: {fileID: 159582, guid: f44d7efb1153be6429b8026943925d2a, type: 2}
+  WallPrefab: {fileID: 135994, guid: f44d7efb1153be6429b8026943925d2a, type: 2}
 --- !u!212 &21251486
 SpriteRenderer:
   m_ObjectHideFlags: 1
